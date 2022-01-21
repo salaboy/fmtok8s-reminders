@@ -1,0 +1,6 @@
+{
+  "incomingEventType": "agenda.AgendaItemAdded",
+  "outgoingEvent": {
+    "type": "reminders.SMSNotification"
+  }
+}
