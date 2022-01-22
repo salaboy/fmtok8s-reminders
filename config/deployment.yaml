@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reminders
+  namespace: default
+
+spec:
+  selector:
+    matchLabels:
+      app: reminders
+  template:
+    metadata:
+      labels:
+        app: reminders
+
+    spec:
+      # To avoid node becoming SPOF, spread our replicas to different nodes.
+#      affinity:
+#        podAntiAffinity:
+#          preferredDuringSchedulingIgnoredDuringExecution:
+#            - podAffinityTerm:
+#                labelSelector:
+#                  matchLabels:
+#                    app: reminders
+#                topologyKey: kubernetes.io/hostname
+#              weight: 100
+
+
+      containers:
+        - name: reminders
+          terminationMessagePolicy: FallbackToLogsOnError
+          image: ko://github.com/salaboy/fmtok8s-reminders/main.go
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          env:
+            - name: VERSION
+              value: 1.0

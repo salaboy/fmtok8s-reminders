@@ -1,4 +1,4 @@
-module salaboy.com/fmtok8s-go-cloudevents
+module github.com/salaboy/fmtok8s-reminders
 
 go 1.17
 

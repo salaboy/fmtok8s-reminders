@@ -3,11 +3,11 @@
 This project implements a [CloudEvents](http://cloudevents.io)-based reminder service. 
 This service allows your services or applications to schedule reminders that will emit CloudEvents when the reminder is due.
 
-This service avoids the use of the Kubernetes Control Plane, hence it doesn't define any CRD, or require any kind of special permissions to run inside a cluster, 
-in contrast with the services like PingSource provided by Knative.
-
 You can configure where the CloudEvents will be sent by exporting an environment variable called `SINK`, which by default will send events to `http://localhost:8080/events`
-In most cases, the reminders service will emit CloudEvents to a broker and not directly to a specific service, hence Knative Eventing is recommended for this use. 
+In most cases, the reminders service will emit CloudEvents to a broker and not directly to a specific service, hence Knative Eventing is recommended for this use.
+
+**Note**: This service avoids the use of the Kubernetes Control Plane, hence it doesn't define any CRD, or require any kind of special permissions to run inside a cluster,
+in contrast with the services like [PingSource provided by Knative](https://knative.dev/docs/eventing/sources/ping-source/).
 
 Reminders JSON Object: 
 ```json
@@ -43,6 +43,13 @@ This service also emits the following Events
 ```json
 go run main.go
 ```
+
+or run with `ko` in Kubernetes:
+
+```
+ko apply -f config/
+```
+
 Schedule a notification every 1 second.
 ```
  curl -X POST -d '{"when":"@every 1s", "type":"email-notification", "forWho":"salaboy@gmail.com", "data": "important email about conference"}' http://localhost:8080/reminders 
